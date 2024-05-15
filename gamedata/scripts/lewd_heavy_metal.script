@@ -1,0 +1,99 @@
+------------------------------------------------------------------------------------------------------------------------
+---                                                                                                                  ---
+--- Original Author(s) : NLTP_ASHES                                                                                  ---
+--- Edited : N/A                                                                                                     ---
+--- Date : 15/05/2024                                                                                                ---
+--- License : Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)              ---
+---                                                                                                                  ---
+--- Proof of Concept script used to prevent the actor from firing if he isn't aiming down sights.                    ---
+---                                                                                                                  ---
+--- Special thanks to @privatepirate.97 for the tip on using level.release_action for the ADS bug.                   ---
+---                                                                                                                  ---
+--- Valid values for 'requires_outfit' :                                                                             ---
+---	 - helmet                                                                                                        ---
+---	 - helmet_light                                                                                                  ---
+---  - outfit                                                                                                        ---
+---	 - outfit_novice                                                                                                 ---
+---	 - outfit_light                                                                                                  ---
+---	 - outfit_medium                                                                                                 ---
+---	 - outfit_heavy                                                                                                  ---
+---	 - outfit_exo                                                                                                    ---
+---                                                                                                                  ---
+--- Valid values for 'requires_ads' :                                                                                ---
+---  - true                                                                                                          ---
+---  - false                                                                                                         ---                                                                                                       ---
+---                                                                                                                  ---
+------------------------------------------------------------------------------------------------------------------------
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Constants, global variables and imported functions
+-- ---------------------------------------------------------------------------------------------------------------------
+
+OUTFIT_SLOT_ID = 7
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Core Functions
+-- ---------------------------------------------------------------------------------------------------------------------
+
+--- Function used to mutate the state of the script to disallow the player to fire his weapon.
+--- It is necessary to force the weapon state to 0 in case the actor is firing a fully automatic weapon.
+--- This is because when firing in full-auto, check_fire is only called before the first round goes of.
+--- @param obj game_object The weapon the player is aiming out of.
+--- @return nil
+function prevent_fire(obj)
+    local requires_ads = ini_sys:r_bool_ex(obj:section(), "requires_ads", false)
+    if requires_ads then
+		level.release_action(bind_to_dik(key_bindings.kWPN_FIRE))
+    end
+end
+
+--- Function called when the player tries to fire his weapon.
+--- The script will check if it is in a state that allows the player from doing so.
+--- @return nil
+function check_fire(flags)
+    local can_fire, msg = this.can_shoot()
+    if not can_fire then
+        flags.ret_value = false
+        actor_menu.set_msg(1, game.translate_string(msg), 3)
+    end
+end
+
+--- Function used to determine if the player is allowed to shoot or not.
+--- @return boolean, string a pair of boolean (indicating if the player can shoot), and a string (a message to display if the player cannot shoot).
+function can_shoot()
+    local obj = db.actor:active_item()
+    if not obj then
+        return true, ""
+    end
+
+    -- Get requirements
+    local requires_ads = ini_sys:r_bool_ex(obj:section(), "requires_ads", false)
+    local requires_outfit = ini_sys:r_string_ex(obj:section(), "requires_outfit", "none")
+
+    -- Requires ADS
+    if requires_ads and not axr_main.weapon_is_zoomed then
+        return false, "st_hm_cant_shoot_reason_ads"
+    end
+
+    -- Get outfit info
+    local outfit = db.actor:item_in_slot(OUTFIT_SLOT_ID)
+    local repair_type = outfit and ini_sys:r_string_ex(outfit:section(), "repair_type") or "none"
+
+    -- Requires outfit
+    if requires_outfit ~= "none" and requires_outfit ~= repair_type then
+        return false, "st_hm_cant_shoot_reason_" .. requires_outfit
+    end
+
+    return true, ""
+end
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Callbacks registration
+-- ---------------------------------------------------------------------------------------------------------------------
+
+--- Function used to register callbacks.
+--- @return nil
+function on_game_start()
+    RegisterScriptCallback("actor_on_weapon_zoom_out", prevent_fire)
+    RegisterScriptCallback("actor_on_weapon_before_fire", check_fire)
+end

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="windows-1251" standalone="yes" ?>
+<!--=================================================================================================================-->
+<!--                                                                                                                 -->
+<!--	Original Author(s) : NLTP_ASHES																			     -->
+<!--	Edited : N/A																							     -->
+<!--	Date : 12/11/2023																						     -->
+<!--	License : Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)		     -->
+<!--																											     -->
+<!--	Translation file for LEWD's Heavy Metal addon.											                     -->
+<!--                                                                                                                 -->
+<!--=================================================================================================================-->
+<string_table>
+
+    <!-- Requires ADS string -->
+    <string id="st_hm_cant_shoot_reason_ads">
+        <text>You need to aim down sights to fire this weapon.</text>
+    </string>
+
+    <!-- Requires outfit strings -->
+    <string id="st_hm_cant_shoot_reason_helmet">
+        <text>You need a helmet to fire this weapon.</text>
+    </string>
+
+    <string id="st_hm_cant_shoot_reason_helmet_light">
+        <text>You need a light helmet to fire this weapon.</text>
+    </string>
+
+    <string id="st_hm_cant_shoot_reason_outfit">
+        <text>You need an outfit to fire this weapon.</text>
+    </string>
+
+    <string id="st_hm_cant_shoot_reason_outfit_novice">
+        <text>You need a novice outfit to fire this weapon.</text>
+    </string>
+
+    <string id="st_hm_cant_shoot_reason_outfit_light">
+        <text>You need a light outfit to fire this weapon.</text>
+    </string>
+
+    <string id="st_hm_cant_shoot_reason_outfit_medium">
+        <text>You need a medium outfit to fire this weapon.</text>
+    </string>
+
+    <string id="st_hm_cant_shoot_reason_outfit_heavy">
+        <text>You need a heavy outfit to fire this weapon.</text>
+    </string>
+
+    <string id="st_hm_cant_shoot_reason_outfit_exo">
+        <text>You need an exoskeleton to fire this weapon.</text>
+    </string>
+
+</string_table>
