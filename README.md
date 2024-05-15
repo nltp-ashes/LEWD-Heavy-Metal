@@ -1,4 +1,4 @@
-# LEWD HUD SWITCHER [![License](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+# LEWD HEAVY METAL [![License](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 ---
 
@@ -65,7 +65,7 @@ To **uninstall** the addon :
 
 ### CHANGELOG
 
-For past updates, please refer to the description of each release, in the [releases tab](https://github.com/nltp-ashes/LEWD-HUD-Switcher/releases).
+For past updates, please refer to the description of each release, in the [releases tab](https://github.com/nltp-ashes/LEWD-Heavy-Metal/releases).
 
 ---
 
